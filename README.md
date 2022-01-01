@@ -58,5 +58,5 @@ Both `soa` and `htable` are in the `hvh` namespace in order to avoid name collis
 - `erase_found_sorted()` As 'erase_found', but maintains the order of the table.
 - `erase_sorted()` as 'erase', but maintains the order of the table.
 - `insert_sorted<K>(args)` Inserts a row while maintaining the ordering of the Kth array.
-- `rehash()` Reclalculates the hash for all keys in the table.
+- `rehash()` Recalculates the hash for all keys in the table.
 - `swap_entries(first, second)` Swaps the position of two entries and repairs the hashes for each.
