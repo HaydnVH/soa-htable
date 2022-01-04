@@ -14,6 +14,7 @@
 
 
 #include <cstdint>
+#include <climits>
 #include <cstring> // For memcpy and memmove
 #include <algorithm> // For std::min
 #include <tuple>
