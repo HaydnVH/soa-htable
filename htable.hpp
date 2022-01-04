@@ -277,7 +277,7 @@ namespace hvh {
 				if (!reserve(this->mycapacity * 2)) return false;
 			}
 			soa<KeyT, ItemTs...>& base = *this;
-			size_t where = base.lower_bound_row<K>(key, items...);
+			size_t where = base.template lower_bound_row<K>(key, items...);
 			base.insert(where, key, items...);
 			rehash();
 		}
