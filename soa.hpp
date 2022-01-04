@@ -878,7 +878,7 @@ namespace hvh {
 		// max_size()
 		// Returns the maximum number of items that this container could theoretically hold.
 		// Does not account for running out of memory.
-		inline const size_t max_size() const { return SIZE_MAX; }
+		inline constexpr size_t max_size() const { return SIZE_MAX; }
 		// capacity()
 		// Returns the number of items that this container could hold before needing to reserve additional memory.
 		inline size_t capacity() const { return this->mycapacity; }
