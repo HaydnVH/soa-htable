@@ -1,4 +1,5 @@
 #include "htable.hpp"
+#include <string>
 #include <cstdio>
 
 bool hashtable_test() {
