@@ -96,7 +96,7 @@ namespace hvh {
 		// Elements of the array may be modified, but the array itself cannot.
 		// As a reference to the internal array, the result will remain valid even after a reallocation.
 		template <size_t K>
-		typename std::enable_if<K == 0, FT * const&>::type
+		typename std::enable_if<K == 0, FT* const&>::type
 			inline data() { return mydata; }
 
 		// data<K>()
@@ -105,14 +105,14 @@ namespace hvh {
 		// As a reference to the internal array, the result will remain valid even after a reallocation.
 		template <size_t K>
 		typename std::enable_if<K != 0, typename elem_type_holder<K, _soa_base<FT, RTs...>>::type* const&>::type
-			inline data() { _soa_base<RTs...>& base = *this; return base.data<K - 1>(); }
+			inline data() { _soa_base<RTs...>& base = *this; return base.template data<K - 1>(); }
 
 		// data<K>() const
 		// Gets a constant reference to a constant pointer to the Kth array.
 		// Neither the array nor its elements can be modified.
 		// As a reference to the internal array, the result will remain valid even after a reallocation.
 		template <size_t K>
-		typename std::enable_if<K == 0, const FT * const&>::type
+		typename std::enable_if<K == 0, const FT* const&>::type
 			inline data() const { return mydata; }
 
 		// data<K>() const
@@ -121,7 +121,7 @@ namespace hvh {
 		// As a reference to the internal array, the result will remain valid even after a reallocation.
 		template <size_t K>
 		typename std::enable_if<K != 0, const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type* const&>::type
-			inline data() const { _soa_base<RTs...>& base = *this; return base.data<K - 1>(); }
+			inline data() const { _soa_base<RTs...>& base = *this; return base.template data<K - 1>(); }
 
 		// at<K>(i)
 		// Gets a reference to the ith item of the Kth array.
@@ -135,7 +135,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not use with an out-of-bounds index!
 		template <size_t K>
 		typename std::enable_if<K != 0, typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline at(size_t index) { _soa_base<RTs...>& base = *this; return base.at<K - 1>(index); }
+			inline at(size_t index) { _soa_base<RTs...>& base = *this; return base.template at<K - 1>(index); }
 
 		// at<K>(i) const
 		// Gets a constant reference to the ith item of the Kth array.
@@ -149,7 +149,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not use with an out-of-bounds index!
 		template <size_t K>
 		typename std::enable_if<K != 0, const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline at(size_t index) const { _soa_base<RTs...>& base = *this; return base.at<K - 1>(index); }
+			inline at(size_t index) const { _soa_base<RTs...>& base = *this; return base.template at<K - 1>(index); }
 
 		// front<K>()
 		// Gets a reference to the item at the front of the Kth array.
@@ -163,7 +163,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not call on an empty container!
 		template <size_t K>
 		typename std::enable_if<K != 0, typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline front() { _soa_base<RTs...>& base = *this; return base.front<K - 1>(); }
+			inline front() { _soa_base<RTs...>& base = *this; return base.template front<K - 1>(); }
 
 		// front<K>() const
 		// Gets a const reference to the item at the front of the Kth array.
@@ -177,7 +177,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not call on an empty container!
 		template <size_t K>
 		typename std::enable_if<K != 0, const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline front() const { _soa_base<RTs...>& base = *this; return base.front<K - 1>(); }
+			inline front() const { _soa_base<RTs...>& base = *this; return base.template front<K - 1>(); }
 
 		// back<K>()
 		// Gets a reference to the item at the back of the Kth array.
@@ -191,7 +191,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not call on an empty container!
 		template <size_t K>
 		typename std::enable_if<K != 0, typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline back() { _soa_base<RTs...>& base = *this; return base.back<K - 1>(); }
+			inline back() { _soa_base<RTs...>& base = *this; return base.template back<K - 1>(); }
 
 		// back<K>() const
 		// Gets a constant reference to the item at the back of the Kth array.
@@ -205,7 +205,7 @@ namespace hvh {
 		// Does not perform bounds checking; do not call on an empty container!
 		template <size_t K>
 		typename std::enable_if<K != 0, const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type&>::type
-			inline back() const { _soa_base<RTs...>& base = *this; return base.back<K - 1>(); }
+			inline back() const { _soa_base<RTs...>& base = *this; return base.template back<K - 1>(); }
 
 		// lower_bound<K>(goal)
 		// Performs a binary search looking for 'goal' in sorted array 'K'.
@@ -253,7 +253,7 @@ namespace hvh {
 		template <size_t K>
 		typename std::enable_if<K != 0, size_t>::type
 			inline lower_bound(const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type & goal) {
-			_soa_base<RTs...>& base = *this; return base.lower_bound<K - 1>(goal);
+			_soa_base<RTs...>& base = *this; return base.template lower_bound<K - 1>(goal);
 		}
 		// lower_bound_row<K>(goal_row)
 		// Performs a binary search looking for the Kth entry in 'goal_row' in sorted array 'K'.
@@ -263,7 +263,7 @@ namespace hvh {
 		template<size_t K>
 		typename std::enable_if<K != 0, size_t>::type
 			inline lower_bound_row(const FT& first, const RTs&... rest) {
-			_soa_base<RTs...>& base = *this; return base.lower_bound<K - 1>(rest...);
+			_soa_base<RTs...>& base = *this; return base.template lower_bound<K - 1>(rest...);
 		}
 
 		// upper_bound<K>(goal)
@@ -295,7 +295,7 @@ namespace hvh {
 		template <size_t K>
 		typename std::enable_if<K != 0, size_t>::type
 			inline upper_bound(const typename elem_type_holder<K, _soa_base<FT, RTs...>>::type & goal) {
-			_soa_base<RTs...>& base = *this; return base.upper_bound<K - 1>(goal);
+			_soa_base<RTs...>& base = *this; return base.template upper_bound<K - 1>(goal);
 		}
 
 		///////////////////////////////////////////////////////////////////////////
@@ -589,7 +589,7 @@ namespace hvh {
 		~soa() {
 			_soa_base<Ts...>& base = *this;
 			base.destruct_range(0, this->mysize);
-			void* oldmem = this->data<0>();
+			void* oldmem = this->template data<0>();
 			if (oldmem) _soa_aligned_free(oldmem);
 		}
 
@@ -630,7 +630,7 @@ namespace hvh {
 
 			// Remember the old memory so we can free it.
 			_soa_base<Ts...>& base = *this;
-			void* oldmem = this->data<0>();
+			void* oldmem = this->template data<0>();
 
 			// Allocate new memory.
 			void* alloc_result = _soa_aligned_malloc(16, base.size_per_entry() * newsize);
@@ -661,7 +661,7 @@ namespace hvh {
 
 			// Remember the old memory so we can free it.
 			_soa_base<Ts...>& base = *this;
-			void* oldmem = this->data<0>();
+			void* oldmem = this->template data<0>();
 
 			if (newsize > 0) {
 				// Allocate new memory.
@@ -884,7 +884,7 @@ namespace hvh {
 		inline size_t capacity() const { return this->mycapacity; }
 
 		void* get_raw_data() {
-			return this->data<0>();
+			return this->template data<0>();
 		}
 		size_t get_raw_capacity() {
 			return this->size_per_entry() * this->mycapacity;;
@@ -898,7 +898,7 @@ namespace hvh {
 		void* serialize(size_t& num_bytes) {
 			shrink_to_fit();
 			num_bytes = this->size_per_entry() * this->mycapacity;
-			return this->data<0>();
+			return this->template data<0>();
 		}
 
 		// deserialize(n)
@@ -911,7 +911,7 @@ namespace hvh {
 			reserve(num_elements);
 			num_bytes = this->size_per_entry() * this->mycapacity;
 			this->mysize = num_elements;
-			return this->data<0>();
+			return this->template data<0>();
 		}
 
 		// sort<K>()
@@ -920,7 +920,7 @@ namespace hvh {
 		// Complexity: O(nlogn).
 		template <size_t K>
 		size_t sort() {
-			return quicksort(this->data<K>(), 0, this->mysize - 1);
+			return quicksort(this->template data<K>(), 0, this->mysize - 1);
 		}
 
 	protected:
