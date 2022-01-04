@@ -83,14 +83,14 @@ bool hashtable_test() {
 	}
 
 	for (int i = 0; i < stringhash.size(); ++i) {
-		printf("[%s]:[%i]\n", stringhash.at<0>(i).c_str, stringhash.at<1>(i));
+		printf("[%s]:[%i]\n", stringhash.at<0>(i).c_str(), stringhash.at<1>(i));
 	}
 
 	size_t swaps = stringhash.sort<1>();
 	printf("Sort performed %zi swaps.\n", swaps);
 
 	for (int i = 0; i < stringhash.size(); ++i) {
-		printf("[%i]:[%s]\n", stringhash.at<1>(i), stringhash.at<0>(i).c_str);
+		printf("[%i]:[%s]\n", stringhash.at<1>(i), stringhash.at<0>(i).c_str());
 	}
 
 	return success;
