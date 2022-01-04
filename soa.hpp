@@ -65,6 +65,7 @@ namespace hvh {
 		friend inline void swap(_soa_base<Ts...>& lhs, _soa_base<Ts...>& rhs) { std::swap(lhs.mysize, rhs.mysize); std::swap(lhs.mycapacity, rhs.mycapacity); }
 		inline void copy(const _soa_base<Ts...>& other) { mysize = other.mysize; }
 		inline void swap_entries(size_t, size_t) {}
+		inline std::tuple<> make_row_tuple(size_t) const { return std::tuple<>(); }
 
 	protected:
 		_soa_base() {}
@@ -520,6 +521,18 @@ namespace hvh {
 			base.swap_entries(first, second);
 		}
 
+		// Creates a tuple of references representing a whole row.
+		inline std::tuple<FT&, RTs&...> make_row_tuple(size_t row) {
+			_soa_base<RTs...>& base = *this;
+			return std::tuple_cat(std::make_tuple(std::reference_wrapper<FT>(mydata[row])), base.make_row_tuple(row));
+		}
+
+		// Creates tuple of const references representing a whole row.
+		inline std::tuple<const FT&, const RTs&...> make_row_tuple(size_t row) const {
+			const _soa_base<RTs...>& base = *this;
+			return std::tuple_cat(std::make_tuple(std::reference_wrapper<FT>(mydata[row])), base.make_row_tuple(row));
+		}
+
 	protected:
 		_soa_base() {}
 		FT* mydata = nullptr;
@@ -923,6 +936,61 @@ namespace hvh {
 		size_t sort() {
 			return quicksort(this->template data<K>(), 0, this->mysize - 1);
 		}
+
+		// Iterators
+		// These iterators allow you to iterate over each row of the container.
+		// As this is as struct-of-arrays and not an array-of-structs, you should generally not do this.
+		// It can be useful for debugging I guess.
+
+		struct iterator {
+			using iterator_category = std::forward_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using value_type = std::tuple<Ts&...>;
+			//using pointer = value_type*;
+			//using reference = value_type&;
+
+			iterator(soa& container, size_t row) : _container(container), _row(row) {}
+
+			value_type operator*() const { return _container.make_row_tuple(_row); }
+
+			iterator& operator++() { _row++; return *this; }
+			iterator operator++(int) { iterator tmp = *this; ++(*this); return tmp; }
+
+			friend bool operator==(const iterator& a, const iterator& b) { return a._row == b._row; }
+			friend bool operator!=(const iterator& a, const iterator& b) { return a._row != b._row; }
+
+		private:
+			soa& _container;
+			size_t _row;
+		};
+
+		iterator begin() { return iterator(*this, 0); }
+		iterator end() { return iterator(*this, this->mysize); }
+
+		struct const_iterator {
+			using iterator_category = std::forward_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using value_type = std::tuple<const Ts&...>;
+			//using pointer = value_type*;
+			//using reference = value_type&;
+
+			const_iterator(const soa& container, size_t row) : _container(container), _row(row) {}
+
+			value_type operator*() const { return _container.make_row_tuple(_row); }
+
+			const_iterator& operator++() { _row++; return *this; }
+			const_iterator operator++(int) { const_iterator tmp = *this; ++(*this); return tmp; }
+
+			friend bool operator==(const const_iterator& a, const const_iterator& b) { return a._row == b._row; }
+			friend bool operator!=(const const_iterator& a, const const_iterator& b) { return a._row != b._row; }
+
+		private:
+			const soa& _container;
+			size_t _row;
+		};
+
+		const_iterator begin()	const { return const_iterator(*this, 0); }
+		const_iterator end()	const { return const_iterator(*this, this->mysize); }
 
 	protected:
 		// Ban access to certain parent methods.
