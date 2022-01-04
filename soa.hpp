@@ -2,7 +2,7 @@
  * Struct-Of-Arrays template class
  * by Haydn V. Harach
  * Created October 2019
- * Modified March 2021
+ * Modified January 2022
  *
  * Implements a Struct-Of-Arrays container class to store and manage a series
  * of contiguous arrays which are stored back-to-back in memory.
