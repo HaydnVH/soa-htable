@@ -1,5 +1,4 @@
 #include "htable.hpp"
-#include "fixedstring.h"
 #include <cstdio>
 
 bool hashtable_test() {
@@ -7,7 +6,7 @@ bool hashtable_test() {
 	printf("Testing hashtable...\n");
 
 
-	hvh::htable<fixedstring<32>, int> stringhash;
+	hvh::htable<std::string, int> stringhash;
 
 	stringhash.insert("apple", 61);
 	stringhash.insert("banana", 12);
