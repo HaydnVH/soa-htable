@@ -104,7 +104,7 @@ namespace hvh {
 			memset(hashmap, INDEXNUL, sizeof(uint32_t) * hashcapacity);
 			for (size_t i = 0; i < this->mysize; ++i) {
 				// Get the hash for this key.
-				size_t hash = std::hash<KeyT>{}(this->at<0>(i)) % hashcapacity;
+				size_t hash = std::hash<KeyT>{}(this->template at<0>(i)) % hashcapacity;
 				// Figure out where to put it.
 				while (1) {
 					// If this spot is NULL or DELETED, we can put our reference here.
@@ -301,7 +301,7 @@ namespace hvh {
 			while (1) {
 				uint32_t index = hashmap[hashcursor];
 				if (index == INDEXNUL) return SIZE_MAX;
-				if (index != INDEXDEL && this->at<0>(index) == key) return (size_t)index;
+				if (index != INDEXDEL && this->template at<0>(index) == key) return (size_t)index;
 				hash_inc(hashcursor);
 			}
 			return SIZE_MAX;
@@ -318,7 +318,7 @@ namespace hvh {
 			while (1) {
 				uint32_t index = hashmap[hash];
 				if (index == INDEXNUL) return SIZE_MAX;
-				if (index != INDEXDEL && this->at<0>(index) == key) return (size_t)index;
+				if (index != INDEXDEL && this->template at<0>(index) == key) return (size_t)index;
 				hash_inc(hash);
 			}
 		}
@@ -340,7 +340,7 @@ namespace hvh {
 			while (1) {
 				uint32_t index = hashmap[hashc];
 				if (index == INDEXNUL) return SIZE_MAX;
-				if (index != INDEXDEL && this->at<0>(index) == key) return (size_t)index;
+				if (index != INDEXDEL && this->template at<0>(index) == key) return (size_t)index;
 				hash_inc(hashc);
 			}
 		}
@@ -417,7 +417,7 @@ namespace hvh {
 			hashmap[hashcursor] = INDEXDEL;
 
 			// Get the hash of the key that we just moved into the deleted item's place.
-			size_t hash = std::hash<KeyT>{}(this->at<0>(index)) % hashcapacity;
+			size_t hash = std::hash<KeyT>{}(this->template at<0>(index)) % hashcapacity;
 			// Scan through looking for the reference so we can repair it.
 			while (1) {
 				uint32_t newindex = hashmap[hash];
@@ -525,7 +525,7 @@ namespace hvh {
 		// Complexity: O(nlogn).
 		template <size_t K>
 		size_t sort() {
-			size_t result = this->quicksort(this->data<K>(), 0, this->mysize-1);
+			size_t result = this->quicksort(this->template data<K>(), 0, this->mysize-1);
 			rehash();
 			return result;
 		}
