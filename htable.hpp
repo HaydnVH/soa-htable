@@ -486,7 +486,7 @@ namespace hvh {
 		// max_size()
 		// Returns the greatest number of entries that this hash table could theoretically hold.
 		// Does not account for running out of memory.
-		inline const size_t max_size() const {
+		inline constexpr size_t max_size() const {
 			return UINT_MAX - 2;
 		}
 
